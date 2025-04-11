@@ -4,6 +4,7 @@ import { Bell, Home, MoreVertical, Settings, Users } from 'lucide-react'
 import { Avatar } from "../../components/ui/avatar"
 import Sidebar from "../../components/ui/sidebar"
 import useApp from "./useApp"
+import { Link } from 'react-router-dom';
 
 export default function AcervoPage() {
     const { dataAcervo } = useApp()
@@ -30,7 +31,9 @@ export default function AcervoPage() {
                         </button>
 
                         <div className="ml-auto">
+                            <Link to="/register-book">
                             <Button className="bg-[#0f62fe] hover:bg-[#001d6c] text-white">Adicionar Livro</Button>
+                            </Link>
                         </div>
                     </div>
 
