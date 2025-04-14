@@ -19,21 +19,23 @@ export default function AcervoPage() {
 
                     {/* Tabs */}
                     <div className="flex border-b border-[#dde1e6] mb-6">
-                        <Link to="register-user"
-                         className="px-4 py-3 text-[#4d5358]">
-                            Cadastrar Usuário<span className="bg-[#dde1e6] text-[#4d5358] rounded-full text-xs"></span>
-                        </Link>
 
+                        <button className="px-4 py-3 text-[#0f62fe] border-b-2 border-[#0f62fe] flex items-center gap-2">
+                            Disponíveis <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">15</span>
+                        </button>
+
+                        <Link to="register-loan"
+                            className="px-4 py-3 text-[#4d5358] flex items-center gap-2"> 
+                            Emprestar <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs"></span>
+                        </Link>
+                        
                         <button className="px-4 py-3 text-[#4d5358] flex items-center gap-2">
                             Emprestados <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">2</span>
                         </button>
                         
-                        <button className="px-4 py-3 text-[#0f62fe] border-b-2 border-[#0f62fe] flex items-center gap-2">
-                            Disponíveis <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">15</span>
-                        </button>
-                        <Link to="register-loan"
-                            className="px-4 py-3 text-[#4d5358] flex items-center gap-2"> 
-                            Emprestar <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs"></span>
+                        <Link to="register-user"
+                         className="px-4 py-3 text-[#4d5358]">
+                            Cadastrar Usuário<span className="bg-[#dde1e6] text-[#4d5358] rounded-full text-xs"></span>
                         </Link>
 
                         <div className="ml-auto">
