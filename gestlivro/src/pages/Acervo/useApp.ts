@@ -18,9 +18,10 @@ export default function useApp() {
         { author: "Jhon Marston", bookName: "Red Dead Redemption II", year: 1983, status: "Manutenção" },
         { author: "Jhonny Silveira", bookName: "Meu nome não é livro", year: "2012", status: "Disponível" },
         { author: "João Batista", bookName: "Lorem Ipsum - O livro", year: "2002", status: "Emprestado" },
+        {author: "João Batista", bookName: "Lorem Ipsum - O livro 2", year: "2002", status: "Disponível"},
     ]
 
-    // Exemplo de função simples, bem simples mesmo, para o chamar a api e buscar os dados
+    // Exemplo de função simples, para o chamar a api e buscar os dados
     // Não contém tratativa de erros, não contém nada, só para exemplificar como seria a chamada da API
     // Essa função pode ser chamada dentro do useEffect, ou seja, quando o componente for montado, ele vai chamar a função e buscar os dados
     // Ou seja, quando o componente for montado, ele vai chamar a função e buscar os dados
