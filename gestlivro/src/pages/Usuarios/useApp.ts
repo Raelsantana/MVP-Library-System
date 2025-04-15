@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-interface IAcervo {
+export interface IUsers {
     name: string
     email: string
     cpf: string | number
@@ -9,7 +9,7 @@ interface IAcervo {
 }
 
 export default function useApp() {
-    const [dataAcervo, setDataAcervo] = useState<IAcervo[]>([])
+    const [dataAcervo, setDataAcervo] = useState<IUsers[]>([])
     const [isRegisterUserOpen, setIsRegisterUserOpen] = useState(false)
 
     const userData = [
