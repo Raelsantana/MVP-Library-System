@@ -25,7 +25,7 @@ type BookRegistrationFormData = {
 export default function BookRegistrationForm({ handleChange, handleCheckboxChange, handleSubmit, handleClearDataModal, handleCloseModal, formData }: BookRegistrationFormData) {
 
     return (
-        <div className="max-w-2xl mx-auto p-4 container">
+        <div className="max-w-2xl mx-auto p-4 container bg-white rounded-md shadow-md">
             <h1 className="text-2xl font-medium text-[#21272a] p-6 flex align-center w-full justify-between">
                 Cadastrar Livro
                 <Button onClick={handleCloseModal} className=" h-8 w-6 bg-inherit hover:bg-gray-200 rounded-full text-gray-500">
@@ -37,7 +37,7 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
                 <div className="space-y-6">
                     <div className="space-y-2">
                         <Label htmlFor="bookName" className="text-[#21272a] font-medium">
-                            Nome do livro
+                            Título do livro
                         </Label>
                         <Input
                             id="bookName"
@@ -46,6 +46,7 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
                             className="bg-white border-[#dde1e6] h-12"
                             value={formData.bookName}
                             onChange={handleChange}
+                            maxLength={50}
                         />
                     </div>
 
@@ -61,6 +62,7 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
                                 className="bg-white border-[#dde1e6] h-12"
                                 value={formData.author}
                                 onChange={handleChange}
+                                maxLength={50}
                             />
                             <p className="text-sm text-[#697077]">Informe o nome do autor!</p>
                         </div>
@@ -76,6 +78,7 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
                                 className="bg-white border-[#dde1e6] h-12"
                                 value={formData.year}
                                 onChange={handleChange}
+                                maxLength={10}
                             />
                         </div>
                     </div>

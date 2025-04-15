@@ -18,7 +18,7 @@ export default function useApp() {
         { author: "Jhon Marston", bookName: "Red Dead Redemption II", year: 1983, status: "Manutenção" },
         { author: "Jhonny Silveira", bookName: "Meu nome não é livro", year: "2012", status: "Disponível" },
         { author: "João Batista", bookName: "Lorem Ipsum - O livro", year: "2002", status: "Emprestado" },
-        {author: "João Batista", bookName: "Lorem Ipsum - O livro 2", year: "2002", status: "Disponível"},
+        { author: "João Batista", bookName: "Lorem Ipsum - O livro 2", year: "2002", status: "Disponível" },
     ]
 
     // Exemplo de função simples, para o chamar a api e buscar os dados
@@ -63,6 +63,13 @@ export default function useApp() {
 
     const handleChangeDatamodal = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
+        if (name === 'year') {
+            const regex = /^[0-9]{0,4}$/
+            if (!regex.test(value)) return
+            const formattedValue = value.replace(/\D/g, "").replace(/(\d{4})(\d)/, "$1")
+            setFormData((prev) => ({ ...prev, [name]: formattedValue }))
+            return
+        }
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
 

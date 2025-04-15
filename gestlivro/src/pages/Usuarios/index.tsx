@@ -1,19 +1,18 @@
-import { Checkbox } from "@radix-ui/react-checkbox"
 import { Button } from "../../components/ui/button"
-import { Bell, Home, MoreVertical, Settings, Users } from 'lucide-react'
+import { MoreVertical,} from 'lucide-react'
 import { Avatar } from "../../components/ui/avatar"
 import Sidebar from "../../components/ui/sidebar"
 import useApp from "./useApp"
 import { Link } from 'react-router-dom';
-import RegisterBookPage from "../RegistroLivros"
+import RegisterUserPage from "../RegistroUsuario"
 
-export default function AcervoPage() {
+export default function UsuariosPage() {
     const {
         dataAcervo,
-        isRegisterBookOpen,
+        isRegisterUserOpen,
         formData,
         handleFetchData,
-        handleModalRegisterBook,
+        handleModalRegisterUser,
         handleChangeDatamodal,
         handleCheckboxChange,
         handleSubmit,
@@ -28,31 +27,22 @@ export default function AcervoPage() {
                 {/* Main content */}
                 <div className="flex-1 overflow-auto">
                     <div className="p-8">
-                        <h1 className="text-3xl font-bold text-[#21272a] mb-6">Acervo</h1>
+                        <h1 className="text-3xl font-bold text-[#21272a] mb-6">Usuários</h1>
 
                         {/* Tabs */}
                         <div className="flex border-b border-[#dde1e6] mb-6">
 
                             <button className="px-4 py-3 text-[#0f62fe] border-b-2 border-[#0f62fe] flex items-center gap-2">
-                                Disponíveis <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">15</span>
+                                Ativos <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">15</span>
                             </button>
 
                             <Link to="register-loan"
                                 className="px-4 py-3 text-[#4d5358] flex items-center gap-2">
-                                Emprestar <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs"></span>
-                            </Link>
-
-                            <button className="px-4 py-3 text-[#4d5358] flex items-center gap-2">
-                                Emprestados <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">2</span>
-                            </button>
-
-                            <Link to="register-user"
-                                className="px-4 py-3 text-[#4d5358]">
-                                Cadastrar Usuário<span className="bg-[#dde1e6] text-[#4d5358] rounded-full text-xs"></span>
+                                Inativos <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs"></span>
                             </Link>
 
                             <div className="ml-auto">
-                                <Button className="bg-[#0f62fe] hover:bg-[#001d6c] text-white" onClick={handleModalRegisterBook}>Adicionar Livro</Button>
+                                <Button className="bg-[#0f62fe] hover:bg-[#001d6c] text-white" onClick={handleModalRegisterUser}>Cadastrar Usuário</Button>
                             </div>
                         </div>
 
@@ -62,9 +52,10 @@ export default function AcervoPage() {
                             <table className="w-full">
                                 <thead className="bg-[#f2f4f8] border-b border-[#dde1e6]">
                                     <tr>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Autor</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Título</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Ano</th>
+                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Nome</th>
+                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">CPF</th>
+                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Email</th>
+                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Telefone</th>
                                         <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Status</th>
                                         <th className="w-12"></th>
                                     </tr>
@@ -96,13 +87,14 @@ export default function AcervoPage() {
                                                         </div>
                                                     </Avatar>
                                                     <div>
-                                                        <div className="font-medium text-[#21272a]">{book.author}</div>
+                                                        <div className="font-medium text-[#21272a]">{book.name}</div>
                                                     </div>
                                                 </div>
                                             </td>
 
-                                            <td className="px-4 py-3 text-[#21272a]">{book.bookName}</td>
-                                            <td className="px-4 py-3 text-[#21272a]">{book.year}</td>
+                                            <td className="px-4 py-3 text-[#21272a]">{book.cpf}</td>
+                                            <td className="px-4 py-3 text-[#21272a]">{book.email}</td>
+                                            <td className="px-4 py-3 text-[#21272a]">{book.phone}</td>
                                             <td className="px-4 py-3">
                                                 <span
                                                     className={`px-2 py-1 rounded-full text-xs ${book.status === "Disponível"
@@ -126,7 +118,7 @@ export default function AcervoPage() {
                             </table>
 
                             {/* Pagination */}
-                            <div className="flex items-center justify-center py-4 border-t border-[#dde1e6]">
+                            {/* <div className="flex items-center justify-center py-4 border-t border-[#dde1e6]">
                                 <button className="flex items-center gap-1 px-3 py-1 text-[#0f62fe]">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -172,14 +164,14 @@ export default function AcervoPage() {
                                         <path d="m9 18 6-6-6-6" />
                                     </svg>
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
                 {
-                    isRegisterBookOpen && (
-                        <RegisterBookPage
-                            handleCloseModal={handleModalRegisterBook}
+                    isRegisterUserOpen && (
+                        <RegisterUserPage
+                            handleCloseModal={handleModalRegisterUser}
                             handleClearDataModal={handleClearDataModal}
                             formData={formData}
                             handleChange={handleChangeDatamodal}
