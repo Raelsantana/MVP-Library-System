@@ -2,10 +2,66 @@ import { Checkbox } from "@radix-ui/react-checkbox"
 import { Button } from "../../components/ui/button"
 import { Bell, Home, MoreVertical, Settings, Users } from 'lucide-react'
 import { Avatar } from "../../components/ui/avatar"
-import Sidebar from "../../components/ui/sidebar"
-import useApp from "./useApp"
+import useApp, { IAcervo } from "./useApp"
 import { Link } from 'react-router-dom';
 import RegisterBookPage from "../RegistroLivros"
+import { Sidebar } from "../../components/ui/sidebar"
+import { memo } from "react"
+
+const TableRows = memo(({ dataAcervo }: { dataAcervo: IAcervo[] }) => (
+    <>
+        {dataAcervo.map((book, index) => (
+            <tr key={index} className="border-b border-[#dde1e6]">
+                <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                        <Avatar className="h-8 w-8 bg-[#f2f4f8] flex items-center justify-center">
+                            <div className="text-[#697077]">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <circle cx="12" cy="8" r="5" />
+                                    <path d="M20 21a8 8 0 0 0-16 0" />
+                                </svg>
+                            </div>
+                        </Avatar>
+                        <div>
+                            <div className="font-medium text-[#21272a]">{book.author}</div>
+                        </div>
+                    </div>
+                </td>
+
+                <td className="px-4 py-3 text-[#21272a]">{book.bookName}</td>
+                <td className="px-4 py-3 text-[#21272a]">{book.year}</td>
+                <td className="px-4 py-3">
+                    <span
+                        className={`px-2 py-1 rounded-full text-xs ${book.status === "Disponível"
+                            ? "bg-[#f2f4f8] text-[#4d5358]"
+                            : book.status === "Emprestado"
+                                ? "bg-[#dde1e6] text-[#4d5358]"
+                                : "bg-[#c1c7cd] text-[#4d5358]"
+                            }`}
+                    >
+                        {book.status}
+                    </span>
+                </td>
+                <td className="px-4 py-3">
+                    <button className="text-[#697077]">
+                        <MoreVertical size={18} />
+                    </button>
+                </td>
+            </tr>
+        ))}
+    </>
+
+))
 
 export default function AcervoPage() {
     const {
@@ -72,61 +128,13 @@ export default function AcervoPage() {
                                 <tbody>
 
                                     {/* Esse dataAcervo precisa vir do useApp, ele será o que vem da API */}
+                                    <TableRows dataAcervo={dataAcervo} />
 
-                                    {dataAcervo.map((book, index) => (
-                                        <tr key={index} className="border-b border-[#dde1e6]">
-                                            <td className="px-4 py-3">
-                                                <div className="flex items-center gap-3">
-                                                    <Avatar className="h-8 w-8 bg-[#f2f4f8] flex items-center justify-center">
-                                                        <div className="text-[#697077]">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="16"
-                                                                height="16"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                strokeWidth="2"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                            >
-                                                                <circle cx="12" cy="8" r="5" />
-                                                                <path d="M20 21a8 8 0 0 0-16 0" />
-                                                            </svg>
-                                                        </div>
-                                                    </Avatar>
-                                                    <div>
-                                                        <div className="font-medium text-[#21272a]">{book.author}</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td className="px-4 py-3 text-[#21272a]">{book.bookName}</td>
-                                            <td className="px-4 py-3 text-[#21272a]">{book.year}</td>
-                                            <td className="px-4 py-3">
-                                                <span
-                                                    className={`px-2 py-1 rounded-full text-xs ${book.status === "Disponível"
-                                                        ? "bg-[#f2f4f8] text-[#4d5358]"
-                                                        : book.status === "Emprestado"
-                                                            ? "bg-[#dde1e6] text-[#4d5358]"
-                                                            : "bg-[#c1c7cd] text-[#4d5358]"
-                                                        }`}
-                                                >
-                                                    {book.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <button className="text-[#697077]">
-                                                    <MoreVertical size={18} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
                                 </tbody>
                             </table>
 
                             {/* Pagination */}
-                            <div className="flex items-center justify-center py-4 border-t border-[#dde1e6]">
+                            {/* <div className="flex items-center justify-center py-4 border-t border-[#dde1e6]">
                                 <button className="flex items-center gap-1 px-3 py-1 text-[#0f62fe]">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +180,7 @@ export default function AcervoPage() {
                                         <path d="m9 18 6-6-6-6" />
                                     </svg>
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,69 @@
 import { Button } from "../../components/ui/button"
-import { MoreVertical,} from 'lucide-react'
+import { MoreVertical, } from 'lucide-react'
 import { Avatar } from "../../components/ui/avatar"
-import Sidebar from "../../components/ui/sidebar"
-import useApp from "./useApp"
+import useApp, { IUsers } from "./useApp"
 import { Link } from 'react-router-dom';
 import RegisterUserPage from "../RegistroUsuario"
+import { Sidebar } from "../../components/ui/sidebar";
+import { memo } from "react";
 
 export default function UsuariosPage() {
+
+    const TableRows = memo(({ dataAcervo }: { dataAcervo: IUsers[] }) => (
+        <>
+
+            {dataAcervo.map((book, index) => (
+                <tr key={index} className="border-b border-[#dde1e6]">
+                    <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                            <Avatar className="h-8 w-8 bg-[#f2f4f8] flex items-center justify-center">
+                                <div className="text-[#697077]">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <circle cx="12" cy="8" r="5" />
+                                        <path d="M20 21a8 8 0 0 0-16 0" />
+                                    </svg>
+                                </div>
+                            </Avatar>
+                            <div>
+                                <div className="font-medium text-[#21272a]">{book.name}</div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td className="px-4 py-3 text-[#21272a]">{book.cpf}</td>
+                    <td className="px-4 py-3 text-[#21272a]">{book.email}</td>
+                    <td className="px-4 py-3 text-[#21272a]">{book.phone}</td>
+                    <td className="px-4 py-3">
+                        <span
+                            className={`px-2 py-1 rounded-full text-xs ${book.status === "Disponível"
+                                ? "bg-[#f2f4f8] text-[#4d5358]"
+                                : book.status === "Emprestado"
+                                    ? "bg-[#dde1e6] text-[#4d5358]"
+                                    : "bg-[#c1c7cd] text-[#4d5358]"
+                                }`}
+                        >
+                            {book.status}
+                        </span>
+                    </td>
+                    <td className="px-4 py-3">
+                        <button className="text-[#697077]">
+                            <MoreVertical size={18} />
+                        </button>
+                    </td>
+                </tr>
+            ))}
+        </>
+    ))
     const {
         dataAcervo,
         isRegisterUserOpen,
@@ -63,57 +120,7 @@ export default function UsuariosPage() {
                                 <tbody>
 
                                     {/* Esse dataAcervo precisa vir do useApp, ele será o que vem da API */}
-
-                                    {dataAcervo.map((book, index) => (
-                                        <tr key={index} className="border-b border-[#dde1e6]">
-                                            <td className="px-4 py-3">
-                                                <div className="flex items-center gap-3">
-                                                    <Avatar className="h-8 w-8 bg-[#f2f4f8] flex items-center justify-center">
-                                                        <div className="text-[#697077]">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="16"
-                                                                height="16"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                strokeWidth="2"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                            >
-                                                                <circle cx="12" cy="8" r="5" />
-                                                                <path d="M20 21a8 8 0 0 0-16 0" />
-                                                            </svg>
-                                                        </div>
-                                                    </Avatar>
-                                                    <div>
-                                                        <div className="font-medium text-[#21272a]">{book.name}</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td className="px-4 py-3 text-[#21272a]">{book.cpf}</td>
-                                            <td className="px-4 py-3 text-[#21272a]">{book.email}</td>
-                                            <td className="px-4 py-3 text-[#21272a]">{book.phone}</td>
-                                            <td className="px-4 py-3">
-                                                <span
-                                                    className={`px-2 py-1 rounded-full text-xs ${book.status === "Disponível"
-                                                        ? "bg-[#f2f4f8] text-[#4d5358]"
-                                                        : book.status === "Emprestado"
-                                                            ? "bg-[#dde1e6] text-[#4d5358]"
-                                                            : "bg-[#c1c7cd] text-[#4d5358]"
-                                                        }`}
-                                                >
-                                                    {book.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <button className="text-[#697077]">
-                                                    <MoreVertical size={18} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    <TableRows dataAcervo={dataAcervo} />
                                 </tbody>
                             </table>
 

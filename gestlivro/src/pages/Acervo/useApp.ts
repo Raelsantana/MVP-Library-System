@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-interface IAcervo {
+export interface IAcervo {
     author: string
     bookName: string
     year: string | number
