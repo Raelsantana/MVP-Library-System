@@ -13,11 +13,11 @@ export default function useApp() {
     const [isRegisterUserOpen, setIsRegisterUserOpen] = useState(false)
 
     const userData = [
-        { name: "Johnny Silva", email: "meunomenaoejohnny@gmail.com", cpf: "123.456.789-00", phone: "(79) 9 8123-4566", status: "Disponível" },
-        { name: "Maria Oliveira", email: "maria.oliveira@gmail.com", cpf: "987.654.321-00", phone: "(11) 9 8765-4321", status: "Emprestado" },
-        { name: "Carlos Pereira", email: "carlos.pereira@hotmail.com", cpf: "456.789.123-00", phone: "(21) 9 9988-7766", status: "Disponível" },
-        { name: "Ana Souza", email: "ana.souza@yahoo.com", cpf: "321.654.987-00", phone: "(31) 9 8877-6655", status: "Emprestado" },
-        { name: "Pedro Santos", email: "pedro.santos@outlook.com", cpf: "654.321.987-00", phone: "(41) 9 7766-5544", status: "Disponível" }
+        { name: "Johnny Silva", email: "meunomenaoejohnny@gmail.com", cpf: "123.456.789-00", phone: "(79) 9 8123-4566", status: "Não devolveu" },
+        { name: "Maria Oliveira", email: "maria.oliveira@gmail.com", cpf: "987.654.321-00", phone: "(11) 9 8765-4321", status: "Devolveu" },
+        { name: "Carlos Pereira", email: "carlos.pereira@hotmail.com", cpf: "456.789.123-00", phone: "(21) 9 9988-7766", status: "Não devolveu" },
+        { name: "Ana Souza", email: "ana.souza@yahoo.com", cpf: "321.654.987-00", phone: "(31) 9 8877-6655", status: "Devolveu" },
+        { name: "Pedro Santos", email: "pedro.santos@outlook.com", cpf: "654.321.987-00", phone: "(41) 9 7766-5544", status: "Devolveu" }
 
     ]
 

@@ -15,10 +15,13 @@ type BookRegistrationFormData = {
     handleClearDataModal: () => void
     handleCloseModal: () => void
     formData: {
-        bookName: string,
-        author: string,
-        year: string,
-        isAvailable: boolean
+        author: string
+        title: string
+        publication_year: string | number
+        rented: boolean
+        gender: string
+        qtt_pages: string
+        publisher: string
     }
 }
 
@@ -36,15 +39,15 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
             <form onSubmit={handleSubmit} className="bg-[#f2f4f8] p-6 rounded-md">
                 <div className="space-y-6">
                     <div className="space-y-2">
-                        <Label htmlFor="bookName" className="text-[#21272a] font-medium">
+                        <Label htmlFor="title" className="text-[#21272a] font-medium">
                             Título do livro
                         </Label>
                         <Input
-                            id="bookName"
-                            name="bookName"
+                            id="title"
+                            name="title"
                             placeholder="Ex.: Lorem Ipsum"
                             className="bg-white border-[#dde1e6] h-12"
-                            value={formData.bookName}
+                            value={formData.title}
                             onChange={handleChange}
                             maxLength={50}
                         />
@@ -68,15 +71,15 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="year" className="text-[#21272a] font-medium">
+                            <Label htmlFor="publication_year" className="text-[#21272a] font-medium">
                                 Ano
                             </Label>
                             <Input
-                                id="year"
-                                name="year"
+                                id="publication_year"
+                                name="publication_year"
                                 placeholder="00/00/0000"
                                 className="bg-white border-[#dde1e6] h-12"
-                                value={formData.year}
+                                value={formData.publication_year}
                                 onChange={handleChange}
                                 maxLength={10}
                             />
@@ -85,12 +88,12 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
 
                     <div className="flex items-center space-x-2 pt-2">
                         <Checkbox
-                            id="isAvailable"
-                            checked={formData.isAvailable}
+                            id="rented"
+                            checked={formData.rented}
                             onCheckedChange={handleCheckboxChange}
                             className="border-[#4d5358] data-[state=checked]:bg-[#0f62fe] data-[state=checked]:border-[#0f62fe]"
                         />
-                        <Label htmlFor="isAvailable" className="text-[#21272a] font-medium">
+                        <Label htmlFor="rented" className="text-[#21272a] font-medium">
                             Disponível no Acervo?
                         </Label>
                     </div>

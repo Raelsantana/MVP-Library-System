@@ -10,7 +10,7 @@ import { Button } from "./button"
 export default function RegisterLoanBook() {
     const [formData, setFormData] = useState({
         userName: "",
-        bookName: "",
+        title: "",
         time: "",
         isAvailable: false,
     })
@@ -52,15 +52,15 @@ export default function RegisterLoanBook() {
 
                     <div className="ace-y-6">
                         <div className="space-y-2 md:col-span-2">
-                            <Label htmlFor="BookName" className="text-[#21272a] font-medium">
+                            <Label htmlFor="title" className="text-[#21272a] font-medium">
                                 Nome do Livro
                             </Label>
                             <Input
-                                id="BookName"
-                                name="BookNamer"
+                                id="title"
+                                name="titler"
                                 placeholder="Ex.: Lorem Ipsum"
                                 className="bg-white border-[#dde1e6] h-12"
-                                value={formData.bookName}
+                                value={formData.title}
                                 onChange={handleChange}
                             />
 
@@ -89,7 +89,7 @@ export default function RegisterLoanBook() {
                             type="button"
                             variant="outline"
                             className="flex-1 h-12 border-[#0f62fe] text-[#0f62fe] hover:bg-[#0f62fe]/10"
-                            onClick={() => setFormData({ userName: "", bookName: "", time: "", isAvailable: false })}
+                            onClick={() => setFormData({ userName: "", title: "", time: "", isAvailable: false })}
                         >
                             Cancelar
                         </Button>

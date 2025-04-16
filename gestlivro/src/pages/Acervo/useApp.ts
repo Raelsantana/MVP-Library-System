@@ -1,24 +1,44 @@
 import { useEffect, useState } from "react"
+import { listarLivros } from "../../services/bookservice"
 
 export interface IAcervo {
     author: string
-    bookName: string
-    year: string | number
-    status: string
+    title: string
+    publication_year: string | number
+    rented: boolean
+    gender: string
+    qtt_pages: string
+    publisher: string
+    id?: number
 }
+
+`
+[
+  {
+    "title": "One Piece Cap 1024",
+    "author": "Eichiro Oda",
+    "publication_year": 2024,
+    "gender": "Mangá",
+    "publisher": "Panine",
+    "qtt_pages": 122,
+    "rented": false,
+    "id": 1
+  }
+]
+`
 
 export default function useApp() {
     const [dataAcervo, setDataAcervo] = useState<IAcervo[]>([])
     const [isRegisterBookOpen, setIsRegisterBookOpen] = useState(false)
 
     const bookData = [
-        { author: "Jane Doe", bookName: "Livro sem nome", year: "2025", status: "Disponível" },
-        { author: "Maria Silva", bookName: "O livro do nome do livro", year: 2002, status: "Emprestado" },
-        { author: "Maria Silva", bookName: "O livro do nome do livro 2", year: "2002", status: "Disponível" },
-        { author: "Jhon Marston", bookName: "Red Dead Redemption II", year: 1983, status: "Manutenção" },
-        { author: "Jhonny Silveira", bookName: "Meu nome não é livro", year: "2012", status: "Disponível" },
-        { author: "João Batista", bookName: "Lorem Ipsum - O livro", year: "2002", status: "Emprestado" },
-        { author: "João Batista", bookName: "Lorem Ipsum - O livro 2", year: "2002", status: "Disponível" },
+        { author: "Eichiro Oda", title: "One Piece Cap 1024", year: "2024", status: "Disponível" },
+        { author: "Maria Silva", title: "O livro do nome do livro", year: "2002", status: "Disponível" },
+        { author: "Maria Silva", title: "O livro do nome do livro 2", year: "2002", status: "Disponível" },
+        { author: "Jhon Marston", title: "Red Dead Redemption II", year: "1983", status: "Disponível" },
+        { author: "Jhonny Silveira", title: "Meu nome não é livro", year: "2012", status: "Disponível" },
+        { author: "Ricardo Gouveia", title: "Amanhã será o deserto", year: "1994", status: "Disponível" },
+        { author: "Eichiro Oda", title: "One Piece Cap 1025", year: "2024", status: "Disponível" },
     ]
 
     // Exemplo de função simples, para o chamar a api e buscar os dados
@@ -29,12 +49,11 @@ export default function useApp() {
     // A Mesma função pode ser utilizada para atualizar os dados, ou seja, quando o usuário clicar em um botão, ele vai chamar a função e buscar os dados novamente
 
     const handleFetchData = async () => {
-        try {
-            const response = await fetch("https://api.example.com/books")
-            const data = await response.json()
-            setDataAcervo(data)
-
-        } catch (error) {
+        try{
+            const response = await listarLivros();
+            console.log('response:', response)
+            setDataAcervo(response)
+        }catch(error){
             console.error("Error fetching data:", error)
         }
     }
@@ -46,18 +65,25 @@ export default function useApp() {
     }
 
     const [formData, setFormData] = useState({
-        bookName: "",
+        title: "",
         author: "",
-        year: "",
-        isAvailable: false,
+        publication_year: "",
+        rented: false,
+        publisher: "",
+        qtt_pages: "",
+        gender: "",
+
     })
 
     const handleClearDataModal = () => {
         setFormData({
-            bookName: "",
+            title: "",
             author: "",
-            year: "",
-            isAvailable: false,
+            publication_year: "",
+            rented: false,
+            publisher: "",
+            qtt_pages: "",
+            gender:""
         })
     }
 
@@ -79,12 +105,12 @@ export default function useApp() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if (!formData.bookName || !formData.author || !formData.year) {
+        if (!formData.title || !formData.author || !formData.publication_year) {
             alert("Preencha todos os campos")
             return
         }
 
-        setDataAcervo((prev) => [...prev, { ...formData, status: formData.isAvailable ? "Disponível" : "Emprestado" }])
+        setDataAcervo((prev) => [...prev, { ...formData}])
         handleClearDataModal()
     }
 
@@ -100,7 +126,8 @@ export default function useApp() {
     // Ou seja, quando a API retornar os dados, ele vai setar o valor no dataAcervo e atualizar a tela
 
     useEffect(() => {
-        setDataAcervo(bookData)
+        //setDataAcervo(bookData)
+        handleFetchData()
         //com o uso do setDataAcervo aqui, não precisamos passar a variável de Mock "bookData" diretamente para o componente
     }, [])
 

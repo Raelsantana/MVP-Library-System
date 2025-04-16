@@ -38,18 +38,16 @@ const TableRows = memo(({ dataAcervo }: { dataAcervo: IAcervo[] }) => (
                     </div>
                 </td>
 
-                <td className="px-4 py-3 text-[#21272a]">{book.bookName}</td>
-                <td className="px-4 py-3 text-[#21272a]">{book.year}</td>
+                <td className="px-4 py-3 text-[#21272a]">{book.title}</td>
+                <td className="px-4 py-3 text-[#21272a]">{book.publication_year}</td>
                 <td className="px-4 py-3">
                     <span
-                        className={`px-2 py-1 rounded-full text-xs ${book.status === "Disponível"
+                        className={`px-2 py-1 rounded-full text-xs ${book.rented
                             ? "bg-[#f2f4f8] text-[#4d5358]"
-                            : book.status === "Emprestado"
-                                ? "bg-[#dde1e6] text-[#4d5358]"
-                                : "bg-[#c1c7cd] text-[#4d5358]"
+                            : "bg-[#dde1e6] text-[#4d5358]"
                             }`}
                     >
-                        {book.status}
+                        {book.rented ? "Não Disponível" : "Disponível"}
                     </span>
                 </td>
                 <td className="px-4 py-3">
@@ -102,10 +100,6 @@ export default function AcervoPage() {
                                 Emprestados <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">2</span>
                             </button>
 
-                            <Link to="register-user"
-                                className="px-4 py-3 text-[#4d5358]">
-                                Cadastrar Usuário<span className="bg-[#dde1e6] text-[#4d5358] rounded-full text-xs"></span>
-                            </Link>
 
                             <div className="ml-auto">
                                 <Button className="bg-[#0f62fe] hover:bg-[#001d6c] text-white" onClick={handleModalRegisterBook}>Adicionar Livro</Button>
