@@ -1,77 +1,24 @@
-import { Checkbox } from "@radix-ui/react-checkbox"
 import { Button } from "../../components/ui/button"
-import { Bell, Home, MoreVertical, Settings, Users } from 'lucide-react'
-import { Avatar } from "../../components/ui/avatar"
-import useApp, { IAcervo } from "./useApp"
-import { Link } from 'react-router-dom';
+import useApp from "./useApp"
 import RegisterBookPage from "../RegistroLivros"
 import { Sidebar } from "../../components/ui/sidebar"
-import { memo } from "react"
+import { TableRows } from "./tables/acervo-table"
 
-const TableRows = memo(({ dataAcervo }: { dataAcervo: IAcervo[] }) => (
-    <>
-        {dataAcervo.map((book, index) => (
-            <tr key={index} className="border-b border-[#dde1e6]">
-                <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8 bg-[#f2f4f8] flex items-center justify-center">
-                            <div className="text-[#697077]">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                >
-                                    <circle cx="12" cy="8" r="5" />
-                                    <path d="M20 21a8 8 0 0 0-16 0" />
-                                </svg>
-                            </div>
-                        </Avatar>
-                        <div>
-                            <div className="font-medium text-[#21272a]">{book.author}</div>
-                        </div>
-                    </div>
-                </td>
-
-                <td className="px-4 py-3 text-[#21272a]">{book.title}</td>
-                <td className="px-4 py-3 text-[#21272a]">{book.publication_year}</td>
-                <td className="px-4 py-3">
-                    <span
-                        className={`px-2 py-1 rounded-full text-xs ${book.rented
-                            ? "bg-[#f2f4f8] text-[#4d5358]"
-                            : "bg-[#dde1e6] text-[#4d5358]"
-                            }`}
-                    >
-                        {book.rented ? "Não Disponível" : "Disponível"}
-                    </span>
-                </td>
-                <td className="px-4 py-3">
-                    <button className="text-[#697077]">
-                        <MoreVertical size={18} />
-                    </button>
-                </td>
-            </tr>
-        ))}
-    </>
-
-))
 
 export default function AcervoPage() {
     const {
         dataAcervo,
         isRegisterBookOpen,
         formData,
-        handleFetchData,
+        currentTab,
+        setCurrentTab,
         handleModalRegisterBook,
-        handleChangeDatamodal,
+        handleChangeDataModal,
         handleCheckboxChange,
         handleSubmit,
-        handleClearDataModal
+        handleClearDataModal,
+        handleEditBook,
+        handleDeleteBook
     } = useApp()
     return (
 
@@ -87,14 +34,23 @@ export default function AcervoPage() {
                         {/* Tabs */}
                         <div className="flex border-b border-[#dde1e6] mb-6">
 
-                            <button className="px-4 py-3 text-[#0f62fe] border-b-2 border-[#0f62fe] flex items-center gap-2">
-                                Disponíveis <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">15</span>
+                            <button
+                                id="Acervo"
+                                className={`px-4 py-3 flex items-center gap-2 ${currentTab === "Acervo" ? "border-b-2 border-[#0f62fe] text-[#0f62fe]" : "text-[#4d5358]"
+                                    }`}
+                                onClick={() => setCurrentTab("Acervo")}
+                            >
+                                Disponíveis <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">{dataAcervo.length}</span>
                             </button>
 
-                            <Link to="register-loan"
-                                className="px-4 py-3 text-[#4d5358] flex items-center gap-2">
+                            <button
+                                id="Emprestar"
+                                className={`px-4 py-3 flex items-center gap-2 ${currentTab === "Emprestar" ? "border-b-2 border-[#0f62fe] text-[#0f62fe]" : "text-[#4d5358]"
+                                    }`}
+                                onClick={() => setCurrentTab("Emprestar")}
+                            >
                                 Emprestar <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs"></span>
-                            </Link>
+                            </button>
 
                             <button className="px-4 py-3 text-[#4d5358] flex items-center gap-2">
                                 Emprestados <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">2</span>
@@ -115,6 +71,9 @@ export default function AcervoPage() {
                                         <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Autor</th>
                                         <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Título</th>
                                         <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Ano</th>
+                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Gênero</th>
+                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Alugados</th>
+                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Estoque</th>
                                         <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Status</th>
                                         <th className="w-12"></th>
                                     </tr>
@@ -122,59 +81,10 @@ export default function AcervoPage() {
                                 <tbody>
 
                                     {/* Esse dataAcervo precisa vir do useApp, ele será o que vem da API */}
-                                    <TableRows dataAcervo={dataAcervo} />
+                                    <TableRows dataAcervo={dataAcervo} onEdit={handleEditBook} onDelete={handleDeleteBook} />
 
                                 </tbody>
                             </table>
-
-                            {/* Pagination */}
-                            {/* <div className="flex items-center justify-center py-4 border-t border-[#dde1e6]">
-                                <button className="flex items-center gap-1 px-3 py-1 text-[#0f62fe]">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="m15 18-6-6 6-6" />
-                                    </svg>
-                                    Voltar
-                                </button>
-
-                                <div className="flex mx-4">
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">1</button>
-                                    <button className="w-8 h-8 flex items-center justify-center bg-[#a6c8ff] text-[#001d6c] rounded">
-                                        2
-                                    </button>
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">3</button>
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">4</button>
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">5</button>
-                                    <span className="w-8 h-8 flex items-center justify-center text-[#697077]">...</span>
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">11</button>
-                                </div>
-
-                                <button className="flex items-center gap-1 px-3 py-1 text-[#0f62fe]">
-                                    Próxima
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="m9 18 6-6-6-6" />
-                                    </svg>
-                                </button>
-                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -184,7 +94,7 @@ export default function AcervoPage() {
                             handleCloseModal={handleModalRegisterBook}
                             handleClearDataModal={handleClearDataModal}
                             formData={formData}
-                            handleChange={handleChangeDatamodal}
+                            handleChange={handleChangeDataModal}
                             handleCheckboxChange={handleCheckboxChange}
                             handleSubmit={handleSubmit}
                         />

@@ -56,7 +56,7 @@ export default function useApp() {
         })
     }
 
-    const handleChangeDatamodal = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeDataModal = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
 
         if(name === "cpf"){
@@ -112,7 +112,7 @@ export default function useApp() {
         formData,
         handleFetchData,
         handleModalRegisterUser,
-        handleChangeDatamodal,
+        handleChangeDataModal,
         handleCheckboxChange,
         handleSubmit,
         handleClearDataModal

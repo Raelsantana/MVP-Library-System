@@ -20,8 +20,8 @@ type BookRegistrationFormData = {
         publication_year: string | number
         rented: boolean
         gender: string
-        qtt_pages: string
-        publisher: string
+        qtt_estoque: string
+        qtt_alugados: string
     }
 }
 
@@ -67,7 +67,6 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
                                 onChange={handleChange}
                                 maxLength={50}
                             />
-                            <p className="text-sm text-[#697077]">Informe o nome do autor!</p>
                         </div>
 
                         <div className="space-y-2">
@@ -81,7 +80,54 @@ export default function BookRegistrationForm({ handleChange, handleCheckboxChang
                                 className="bg-white border-[#dde1e6] h-12"
                                 value={formData.publication_year}
                                 onChange={handleChange}
-                                maxLength={10}
+                                maxLength={4}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div className="space-y-2 md:col-span-2">
+                            <Label htmlFor="gender" className="text-[#21272a] font-medium">
+                                Gênero
+                            </Label>
+                            <Input
+                                id="gender"
+                                name="gender"
+                                placeholder="Ex.: Ficção"
+                                className="bg-white border-[#dde1e6] h-12"
+                                value={formData.gender}
+                                onChange={handleChange}
+                                maxLength={50}
+                            />
+                        </div>
+
+                        <div className="space-y-2 md:col-span-1">
+                            <Label htmlFor="qtt_estoque" className="text-[#21272a] font-medium">
+                                Quant. em Estoque
+                            </Label>
+                            <Input
+                                id="qtt_estoque"
+                                name="qtt_estoque"
+                                placeholder="Ex.: 10"
+                                className="bg-white border-[#dde1e6] h-12"
+                                value={formData.qtt_estoque}
+                                onChange={handleChange}
+                                maxLength={2}
+                            />
+                        </div>
+
+                        <div className="space-y-2 md:col-span-1">
+                            <Label htmlFor="qtt_alugados" className="text-[#21272a] font-medium">
+                                Quant. Alugados
+                            </Label>
+                            <Input
+                                id="qtt_alugados"
+                                name="qtt_alugados"
+                                placeholder="Ex.: 5"
+                                className="bg-white border-[#dde1e6] h-12"
+                                value={formData.qtt_alugados}
+                                onChange={handleChange}
+                                maxLength={2}
                             />
                         </div>
                     </div>

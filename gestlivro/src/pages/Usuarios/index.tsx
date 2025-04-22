@@ -70,7 +70,7 @@ export default function UsuariosPage() {
         formData,
         handleFetchData,
         handleModalRegisterUser,
-        handleChangeDatamodal,
+        handleChangeDataModal,
         handleCheckboxChange,
         handleSubmit,
         handleClearDataModal
@@ -181,7 +181,7 @@ export default function UsuariosPage() {
                             handleCloseModal={handleModalRegisterUser}
                             handleClearDataModal={handleClearDataModal}
                             formData={formData}
-                            handleChange={handleChangeDatamodal}
+                            handleChange={handleChangeDataModal}
                             handleCheckboxChange={handleCheckboxChange}
                             handleSubmit={handleSubmit}
                         />

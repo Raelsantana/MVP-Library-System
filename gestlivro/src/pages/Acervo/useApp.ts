@@ -1,59 +1,85 @@
 import { useEffect, useState } from "react"
-import { listarLivros } from "../../services/bookservice"
+import { listarLivros, removerLivro } from "../../services/bookservice"
+import { formatYear, onlyLetters } from "../../utils/formatters"
 
 export interface IAcervo {
     author: string
     title: string
-    publication_year: string | number
+    publication_year: string
     rented: boolean
     gender: string
-    qtt_pages: string
-    publisher: string
+    qtt_estoque: string
+    qtt_alugados: string
     id?: number
 }
-
-`
-[
-  {
-    "title": "One Piece Cap 1024",
-    "author": "Eichiro Oda",
-    "publication_year": 2024,
-    "gender": "Mangá",
-    "publisher": "Panine",
-    "qtt_pages": 122,
-    "rented": false,
-    "id": 1
-  }
-]
-`
 
 export default function useApp() {
     const [dataAcervo, setDataAcervo] = useState<IAcervo[]>([])
     const [isRegisterBookOpen, setIsRegisterBookOpen] = useState(false)
+    const [currentTab, setCurrentTab] = useState("Acervo")
 
-    const bookData = [
-        { author: "Eichiro Oda", title: "One Piece Cap 1024", year: "2024", status: "Disponível" },
-        { author: "Maria Silva", title: "O livro do nome do livro", year: "2002", status: "Disponível" },
-        { author: "Maria Silva", title: "O livro do nome do livro 2", year: "2002", status: "Disponível" },
-        { author: "Jhon Marston", title: "Red Dead Redemption II", year: "1983", status: "Disponível" },
-        { author: "Jhonny Silveira", title: "Meu nome não é livro", year: "2012", status: "Disponível" },
-        { author: "Ricardo Gouveia", title: "Amanhã será o deserto", year: "1994", status: "Disponível" },
-        { author: "Eichiro Oda", title: "One Piece Cap 1025", year: "2024", status: "Disponível" },
-    ]
-
-    // Exemplo de função simples, para o chamar a api e buscar os dados
-    // Não contém tratativa de erros, não contém nada, só para exemplificar como seria a chamada da API
-    // Essa função pode ser chamada dentro do useEffect, ou seja, quando o componente for montado, ele vai chamar a função e buscar os dados
-    // Ou seja, quando o componente for montado, ele vai chamar a função e buscar os dados
-
-    // A Mesma função pode ser utilizada para atualizar os dados, ou seja, quando o usuário clicar em um botão, ele vai chamar a função e buscar os dados novamente
+    const bookData: IAcervo[] = [
+        {
+            id: 1,
+            author: "J.K. Rowling",
+            title: "Harry Potter and the Philosopher's Stone",
+            publication_year: "1997",
+            rented: false,
+            gender: "Fantasy",
+            qtt_estoque: "10",
+            qtt_alugados: "2"
+        },
+        {
+            id: 2,
+            author: "George Orwell",
+            title: "1984",
+            publication_year: "1949",
+            rented: true,
+            gender: "Dystopian",
+            qtt_estoque: "5",
+            qtt_alugados: "3"
+        },
+        {
+            id: 3,
+            author: "J.R.R. Tolkien",
+            title: "The Lord of the Rings",
+            publication_year: "1954",
+            rented: false,
+            gender: "Fantasy",
+            qtt_estoque: "8",
+            qtt_alugados: "1"
+        },
+        {
+            id: 4,
+            author: "Harper Lee",
+            title: "To Kill a Mockingbird",
+            publication_year: "1960",
+            rented: true,
+            gender: "Fiction",
+            qtt_estoque: "6",
+            qtt_alugados: "4"
+        },
+        {
+            id: 5,
+            author: "F. Scott Fitzgerald",
+            title: "The Great Gatsby",
+            publication_year: "1925",
+            rented: false,
+            gender: "Classic",
+            qtt_estoque: "7",
+            qtt_alugados: "0"
+        }
+    ];
 
     const handleFetchData = async () => {
-        try{
-            const response = await listarLivros();
-            console.log('response:', response)
+        try {
+            //const response = await listarLivros();
+            //setDataAcervo(response.data)
+            
+            //dadosMock
+            const response = bookData
             setDataAcervo(response)
-        }catch(error){
+        } catch (error) {
             console.error("Error fetching data:", error)
         }
     }
@@ -69,8 +95,8 @@ export default function useApp() {
         author: "",
         publication_year: "",
         rented: false,
-        publisher: "",
-        qtt_pages: "",
+        qtt_estoque: "",
+        qtt_alugados: "",
         gender: "",
 
     })
@@ -81,18 +107,31 @@ export default function useApp() {
             author: "",
             publication_year: "",
             rented: false,
-            publisher: "",
-            qtt_pages: "",
-            gender:""
+            qtt_estoque: "",
+            qtt_alugados: "",
+            gender: ""
         })
     }
 
-    const handleChangeDatamodal = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeDataModal = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
+
+        if (name === 'author' || name === 'gender') {
+            const formattedValue = onlyLetters(value)
+            setFormData((prev) => ({ ...prev, [name]: formattedValue }))
+            return
+        }
+
         if (name === 'year') {
-            const regex = /^[0-9]{0,4}$/
+            const formattedValue = formatYear(value)
+            setFormData((prev) => ({ ...prev, [name]: formattedValue }))
+            return
+        }
+
+        if (name === 'qtt_estoque' || name === 'qtt_alugados') {
+            const regex = /^[0-9]{0,2}$/
             if (!regex.test(value)) return
-            const formattedValue = value.replace(/\D/g, "").replace(/(\d{4})(\d)/, "$1")
+            const formattedValue = value.replace(/\D/g, "").replace(/(\d{2})(\d)/, "$1")
             setFormData((prev) => ({ ...prev, [name]: formattedValue }))
             return
         }
@@ -100,7 +139,7 @@ export default function useApp() {
     }
 
     const handleCheckboxChange = (checked: boolean) => {
-        setFormData((prev) => ({ ...prev, isAvailable: checked }))
+        setFormData((prev) => ({ ...prev, rented: checked }))
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -110,37 +149,49 @@ export default function useApp() {
             return
         }
 
-        setDataAcervo((prev) => [...prev, { ...formData}])
+        setDataAcervo((prev) => [...prev, { ...formData }])
         handleClearDataModal()
     }
 
-    // Esse useEffect é só para simular a chamada da API, ele vai setar o bookData no dataAcervo assim que o componente for montado
-    // Pois não possui uma dependência, algo para ela monitorar dentro do [] array, ele só vai rodar uma vez, quando o componente for montado
-    // Se tivesse algo dentro do array, ele rodaria sempre que o valor mudasse, como por exemplo [bookData]
-    // Ou seja, se o bookData mudasse, ele rodaria novamente o useEffect
-    // E setaria o valor novamente no dataAcervo, mas como o bookData não muda, ele só vai rodar uma vez
-    // Para a chamada da API podemos utilizar o mesmo conceito, mas com o axios ou fetch e o useEffect de array vazio
-    // pois ele servirá somente para puxar os dados da api quando a tela for motada
+    //Funções dos botões de ação da tabela
 
-    // A atualização dos dados pode ser feita utilizando a mudança dos dados passando o response da API para o setDataAcervo
-    // Ou seja, quando a API retornar os dados, ele vai setar o valor no dataAcervo e atualizar a tela
+    const handleEditBook = (id?: number) => {
+        const bookToEdit = dataAcervo.find((book) => book.id === id)
+        if (bookToEdit) {
+            setFormData(bookToEdit)
+            handleModalRegisterBook()
+            return
+        }
+    }
+
+    const handleDeleteBook =async (id?: number) => {
+        try{
+            const response = await removerLivro(id)
+            alert("Livro removido com sucesso")
+        }catch(error){
+            alert("Erro ao remover livro")
+        }
+    }
+        
 
     useEffect(() => {
         //setDataAcervo(bookData)
         handleFetchData()
-        //com o uso do setDataAcervo aqui, não precisamos passar a variável de Mock "bookData" diretamente para o componente
     }, [])
 
-    // Retornando o dataAcervo e a função handleFetchData, para que possamos utilizar no componente
     return {
         dataAcervo,
         isRegisterBookOpen,
         formData,
+        currentTab,
         handleFetchData,
         handleModalRegisterBook,
-        handleChangeDatamodal,
+        handleChangeDataModal,
         handleCheckboxChange,
         handleSubmit,
-        handleClearDataModal
+        handleClearDataModal,
+        setCurrentTab,
+        handleEditBook,
+        handleDeleteBook
     }
 }
