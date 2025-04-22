@@ -1,7 +1,12 @@
 import axios from "axios";
 import { API_URL } from "../utils/api";
 
-export const emprestarLivro = async (id: number) => {
+export const listarEmprestimos = async () => {
+    const response = await axios.get(`${API_URL}emprestimos/listar`);
+    return response.data;
+}
+
+export const emprestarLivro = async (id?: number) => {
     const response = await axios.post(`${API_URL}emprestimos/devolver/${id}`);
     return response.data;
 };

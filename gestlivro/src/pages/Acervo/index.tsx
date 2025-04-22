@@ -3,6 +3,7 @@ import useApp from "./useApp"
 import RegisterBookPage from "../RegistroLivros"
 import { Sidebar } from "../../components/ui/sidebar"
 import { TableRows } from "./tables/acervo-table"
+import { TableRowsEmprestimos } from "./tables/emprestimos-table"
 
 
 export default function AcervoPage() {
@@ -11,14 +12,16 @@ export default function AcervoPage() {
         isRegisterBookOpen,
         formData,
         currentTab,
-        setCurrentTab,
+        dataEmprestimos,
         handleModalRegisterBook,
         handleChangeDataModal,
         handleCheckboxChange,
         handleSubmit,
         handleClearDataModal,
         handleEditBook,
-        handleDeleteBook
+        handleDeleteBook,
+        handleLendBook,
+        handleChangeTab
     } = useApp()
     return (
 
@@ -38,21 +41,14 @@ export default function AcervoPage() {
                                 id="Acervo"
                                 className={`px-4 py-3 flex items-center gap-2 ${currentTab === "Acervo" ? "border-b-2 border-[#0f62fe] text-[#0f62fe]" : "text-[#4d5358]"
                                     }`}
-                                onClick={() => setCurrentTab("Acervo")}
+                                onClick={handleChangeTab.bind(null, "Acervo")}
                             >
                                 Disponíveis <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">{dataAcervo.length}</span>
                             </button>
 
-                            <button
-                                id="Emprestar"
-                                className={`px-4 py-3 flex items-center gap-2 ${currentTab === "Emprestar" ? "border-b-2 border-[#0f62fe] text-[#0f62fe]" : "text-[#4d5358]"
-                                    }`}
-                                onClick={() => setCurrentTab("Emprestar")}
-                            >
-                                Emprestar <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs"></span>
-                            </button>
-
-                            <button className="px-4 py-3 text-[#4d5358] flex items-center gap-2">
+                            <button className={`px-4 py-3 flex items-center gap-2 ${currentTab === "Emprestados" ? "border-b-2 border-[#0f62fe] text-[#0f62fe]" : "text-[#4d5358]"
+                                }`}
+                                onClick={handleChangeTab.bind(null, "Emprestados")}>
                                 Emprestados <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">2</span>
                             </button>
 
@@ -67,21 +63,38 @@ export default function AcervoPage() {
                         <div className="bg-white rounded-md overflow-hidden">
                             <table className="w-full">
                                 <thead className="bg-[#f2f4f8] border-b border-[#dde1e6]">
-                                    <tr>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Autor</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Título</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Ano</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Gênero</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Alugados</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Estoque</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Status</th>
-                                        <th className="w-12"></th>
-                                    </tr>
+                                    {currentTab === "Acervo" && (
+                                        <tr>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Autor</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Título</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Ano</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Gênero</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Alugados</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Estoque</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Status</th>
+                                            <th className="w-12"></th>
+                                        </tr>
+                                    )}
+                                    {currentTab === "Emprestados" && (
+                                        <tr>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Nome do Usuário</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Título</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Data Empréstimo</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Data Devolução</th>
+                                            <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Devolvido</th>
+                                            <th className="w-12"></th>
+                                        </tr>
+                                    )}
                                 </thead>
                                 <tbody>
 
                                     {/* Esse dataAcervo precisa vir do useApp, ele será o que vem da API */}
-                                    <TableRows dataAcervo={dataAcervo} onEdit={handleEditBook} onDelete={handleDeleteBook} />
+                                    {currentTab === "Acervo" && (
+                                        <TableRows dataAcervo={dataAcervo} onLend={handleLendBook} onEdit={handleEditBook} onDelete={handleDeleteBook} />
+                                    )}
+                                    {currentTab === "Emprestados" && (
+                                        <TableRowsEmprestimos dataAcervo={dataEmprestimos} onLend={handleLendBook} onEdit={handleEditBook} onDelete={handleDeleteBook} />
+                                    )}
 
                                 </tbody>
                             </table>

@@ -1,17 +1,25 @@
 import { memo } from "react";
-import { IAcervo } from "../useApp";
 import { MoreVertical } from 'lucide-react'
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { Avatar } from "../../../components/ui/avatar";
 
-interface ITableRows{
-    dataAcervo: IAcervo[]
+export interface IEmprestimosData {
+    id: number
+    data_emprestimo: string
+    data_devolucao: string | null
+    devolvido: boolean
+    titulo_livro: string
+    nome_usuario: string
+}
+
+interface ITableRows {
+    dataAcervo: IEmprestimosData[]
     onLend: (bookId?: number) => void
     onEdit: (bookId?: number) => void
     onDelete: (bookId?: number) => void
 }
 
-export const TableRows = memo(({ dataAcervo,onLend, onEdit, onDelete }: ITableRows) => (
+export const TableRowsEmprestimos = memo(({ dataAcervo, onEdit, onDelete }: ITableRows) => (
     <>
         {dataAcervo.map((book, index) => (
             <tr key={index} className="border-b border-[#dde1e6]">
@@ -36,24 +44,22 @@ export const TableRows = memo(({ dataAcervo,onLend, onEdit, onDelete }: ITableRo
                             </div>
                         </Avatar>
                         <div>
-                            <div className="font-medium text-[#21272a]">{book.author}</div>
+                            <div className="font-medium text-[#21272a]">{book.nome_usuario}</div>
                         </div>
                     </div>
                 </td>
 
-                <td className="px-4 py-3 text-[#21272a]">{book.title}</td>
-                <td className="px-4 py-3 text-[#21272a]">{book.publication_year}</td>
-                <td className="px-4 py-3 text-[#21272a]">{book.gender}</td>
-                <td className="px-4 py-3 text-[#21272a]">{book.qtt_alugados}</td>
-                <td className="px-4 py-3 text-[#21272a]">{book.qtt_estoque}</td>
+                <td className="px-4 py-3 text-[#21272a]">{book.titulo_livro}</td>
+                <td className="px-4 py-3 text-[#21272a]">{book.data_emprestimo}</td>
+                <td className="px-4 py-3 text-[#21272a]">{book.data_devolucao}</td>
                 <td className="px-4 py-3">
                     <span
-                        className={`px-2 py-1 rounded-full text-xs ${book.rented
+                        className={`px-2 py-1 rounded-full text-xs ${book.devolvido
                             ? "bg-[#f2f4f8] text-[#4d5358]"
                             : "bg-[#dde1e6] text-[#4d5358]"
                             }`}
                     >
-                        {book.rented ? "Não Disponível" : "Disponível"}
+                        {book.devolvido ? "Devolvido" : "Não Devolvido"}
                     </span>
                 </td>
                 <td className="px-4 py-3">
@@ -70,23 +76,22 @@ export const TableRows = memo(({ dataAcervo,onLend, onEdit, onDelete }: ITableRo
                                 align="end"
                             >
                                 <DropdownMenu.Item
-                                    className={`px-4 py-2 rounded-md focus:outline-none ${book.rented ? " text-[#a1a5aa] cursor-not-allowed pointer-events-none" : "hover:bg-[#f2f4f8] cursor-pointer"}`}
-                                    onClick={() => onLend(book.id)}
-                                    
-                                >
-                                    Emprestar
-                                </DropdownMenu.Item>
-                                <DropdownMenu.Item
                                     className="px-4 py-2 hover:bg-[#f2f4f8] cursor-pointer rounded-md focus:outline-none"
                                     onClick={() => onEdit(book.id)}
                                 >
-                                    Editar
+                                    Adiar
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
                                     className="px-4 py-2 hover:bg-[#f2f4f8] cursor-pointer rounded-md focus:outline-none"
                                     onClick={() => onDelete(book.id)}
                                 >
                                     Excluir
+                                </DropdownMenu.Item>
+                                <DropdownMenu.Item
+                                    className="px-4 py-2 hover:bg-[#f2f4f8] cursor-pointer rounded-md focus:outline-none"
+                                    onClick={() => onDelete(book.id)}
+                                >
+                                    Devolver
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Arrow className="fill-[#dde1e6]" />
                             </DropdownMenu.Content>

@@ -119,55 +119,6 @@ export default function UsuariosPage() {
                                     <TableRows dataAcervo={dataAcervo} />
                                 </tbody>
                             </table>
-
-                            {/* Pagination */}
-                            {/* <div className="flex items-center justify-center py-4 border-t border-[#dde1e6]">
-                                <button className="flex items-center gap-1 px-3 py-1 text-[#0f62fe]">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="m15 18-6-6 6-6" />
-                                    </svg>
-                                    Voltar
-                                </button>
-
-                                <div className="flex mx-4">
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">1</button>
-                                    <button className="w-8 h-8 flex items-center justify-center bg-[#a6c8ff] text-[#001d6c] rounded">
-                                        2
-                                    </button>
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">3</button>
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">4</button>
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">5</button>
-                                    <span className="w-8 h-8 flex items-center justify-center text-[#697077]">...</span>
-                                    <button className="w-8 h-8 flex items-center justify-center text-[#0f62fe]">11</button>
-                                </div>
-
-                                <button className="flex items-center gap-1 px-3 py-1 text-[#0f62fe]">
-                                    Próxima
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="m9 18 6-6-6-6" />
-                                    </svg>
-                                </button>
-                            </div> */}
                         </div>
                     </div>
                 </div>

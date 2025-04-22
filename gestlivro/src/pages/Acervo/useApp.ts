@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { listarLivros, removerLivro } from "../../services/bookservice"
 import { formatYear, onlyLetters } from "../../utils/formatters"
+import { emprestarLivro } from "../../services/emprestimoservice"
+import { IEmprestimosData } from "./tables/emprestimos-table"
 
 export interface IAcervo {
     author: string
@@ -15,8 +17,9 @@ export interface IAcervo {
 
 export default function useApp() {
     const [dataAcervo, setDataAcervo] = useState<IAcervo[]>([])
+    const [dataEmprestimos, setDataEmprestimos] = useState<IEmprestimosData[]>([])
     const [isRegisterBookOpen, setIsRegisterBookOpen] = useState(false)
-    const [currentTab, setCurrentTab] = useState("Acervo")
+    const [currentTab, setCurrentTab] = useState<"Acervo" | "Emprestados">("Acervo")
 
     const bookData: IAcervo[] = [
         {
@@ -71,17 +74,73 @@ export default function useApp() {
         }
     ];
 
+    const emprestimosData: IEmprestimosData[] = [
+        {
+            id: 1,
+            data_emprestimo: "01-04-2025",
+            data_devolucao: "15-04-2025",
+            devolvido: true,
+            titulo_livro: "1984",
+            nome_usuario: "João Silva"
+        },
+        {
+            id: 2,
+            data_emprestimo: "10-04-2025",
+            data_devolucao: null,
+            devolvido: false,
+            titulo_livro: "The Lord of the Rings",
+            nome_usuario: "Maria Oliveira"
+        },
+        {
+            id: 3,
+            data_emprestimo: "25-03-2025",
+            data_devolucao: "05-04-2025",
+            devolvido: true,
+            titulo_livro: "To Kill a Mockingbird",
+            nome_usuario: "Carlos Souza"
+        },
+        {
+            id: 4,
+            data_emprestimo: "12-04-2025",
+            data_devolucao: null,
+            devolvido: false,
+            titulo_livro: "The Great Gatsby",
+            nome_usuario: "Ana Pereira"
+        },
+        {
+            id: 5,
+            data_emprestimo: "08-04-2025",
+            data_devolucao: null,
+            devolvido: false,
+            titulo_livro: "Harry Potter and the Philosopher's Stone",
+            nome_usuario: "Lucas Almeida"
+        }
+    ];
+
     const handleFetchData = async () => {
         try {
-            //const response = await listarLivros();
-            //setDataAcervo(response.data)
-            
-            //dadosMock
-            const response = bookData
-            setDataAcervo(response)
+            if (currentTab === "Acervo") {
+                //const response = await listarLivros();
+                //setDataAcervo(response.data)
+
+                //dadosMock
+                const response = bookData
+                setDataAcervo(response)
+            } else {
+                //const response = await listarEmprestimos();
+                //setDataEmprestimos(response.data)
+
+                //dadosMock
+                const responseEmprestimos = emprestimosData
+                setDataEmprestimos(responseEmprestimos)
+            }
         } catch (error) {
             console.error("Error fetching data:", error)
         }
+    }
+
+    const handleChangeTab = (tab: "Acervo" | "Emprestados") => {
+        setCurrentTab(tab)
     }
 
     //Funções do Modal de registro
@@ -155,6 +214,16 @@ export default function useApp() {
 
     //Funções dos botões de ação da tabela
 
+    const handleLendBook = async (id?: number) => {
+        try {
+            const response = await emprestarLivro(id)
+
+            alert(response.message)
+        } catch (error) {
+            alert("Erro ao emprestar livro")
+        }
+    }
+
     const handleEditBook = (id?: number) => {
         const bookToEdit = dataAcervo.find((book) => book.id === id)
         if (bookToEdit) {
@@ -164,26 +233,31 @@ export default function useApp() {
         }
     }
 
-    const handleDeleteBook =async (id?: number) => {
-        try{
+    const handleDeleteBook = async (id?: number) => {
+        try {
             const response = await removerLivro(id)
             alert("Livro removido com sucesso")
-        }catch(error){
+        } catch (error) {
             alert("Erro ao remover livro")
         }
     }
-        
+
 
     useEffect(() => {
         //setDataAcervo(bookData)
         handleFetchData()
     }, [])
 
+    useEffect(() => {
+        handleFetchData()
+    }, [currentTab])
+
     return {
         dataAcervo,
         isRegisterBookOpen,
         formData,
         currentTab,
+        dataEmprestimos,
         handleFetchData,
         handleModalRegisterBook,
         handleChangeDataModal,
@@ -192,6 +266,8 @@ export default function useApp() {
         handleClearDataModal,
         setCurrentTab,
         handleEditBook,
-        handleDeleteBook
+        handleDeleteBook,
+        handleLendBook,
+        handleChangeTab
     }
 }
