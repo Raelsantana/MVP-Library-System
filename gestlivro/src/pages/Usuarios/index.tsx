@@ -12,7 +12,7 @@ export default function UsuariosPage() {
     const TableRows = memo(({ dataAcervo }: { dataAcervo: IUsers[] }) => (
         <>
 
-            {dataAcervo.map((book, index) => (
+            {dataAcervo.map((user, index) => (
                 <tr key={index} className="border-b border-[#dde1e6]">
                     <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
@@ -35,26 +35,23 @@ export default function UsuariosPage() {
                                 </div>
                             </Avatar>
                             <div>
-                                <div className="font-medium text-[#21272a]">{book.name}</div>
+                                <div className="font-medium text-[#21272a]">{user.name}</div>
                             </div>
                         </div>
                     </td>
 
-                    <td className="px-4 py-3 text-[#21272a]">{book.cpf}</td>
-                    <td className="px-4 py-3 text-[#21272a]">{book.email}</td>
-                    <td className="px-4 py-3 text-[#21272a]">{book.phone}</td>
+                    <td className="px-4 py-3 text-[#21272a]">{user.cpf}</td>
+                    <td className="px-4 py-3 text-[#21272a]">{user.email}</td>
                     <td className="px-4 py-3">
-                        <span
-                            className={`px-2 py-1 rounded-full text-xs ${book.status === "Disponível"
-                                ? "bg-[#f2f4f8] text-[#4d5358]"
-                                : book.status === "Emprestado"
-                                    ? "bg-[#dde1e6] text-[#4d5358]"
-                                    : "bg-[#c1c7cd] text-[#4d5358]"
-                                }`}
-                        >
-                            {book.status}
-                        </span>
-                    </td>
+                    <span
+                        className={`px-2 py-1 rounded-full text-xs ${user.pode_alugar
+                            ? "bg-[#f2f4f8] text-[#4d5358]"
+                            : "bg-[#dde1e6] text-[#4d5358]"
+                            }`}
+                    >
+                        {user.pode_alugar ? "Sim" : "Não"}
+                    </span>
+                </td>
                     <td className="px-4 py-3">
                         <button className="text-[#697077]">
                             <MoreVertical size={18} />
@@ -112,8 +109,7 @@ export default function UsuariosPage() {
                                         <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Nome</th>
                                         <th className="px-4 py-3 text-left font-medium text-[#4d5358]">CPF</th>
                                         <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Email</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Telefone</th>
-                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Status</th>
+                                        <th className="px-4 py-3 text-left font-medium text-[#4d5358]">Pode Alugar</th>
                                         <th className="w-12"></th>
                                     </tr>
                                 </thead>
