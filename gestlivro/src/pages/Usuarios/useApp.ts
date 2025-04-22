@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { listarUsuarios } from "../../services/bookservice"
+import { listarUsuarios } from "../../services/usersservice"
 
 export interface IUsers {
     cpf: string
@@ -25,7 +25,6 @@ export default function useApp() {
     const handleFetchData = async () => {
             try{
                 const response = await listarUsuarios();
-                console.log('response:', response)
                 setDataAcervo(response)
             }catch(error){
                 console.error("Error fetching data:", error)

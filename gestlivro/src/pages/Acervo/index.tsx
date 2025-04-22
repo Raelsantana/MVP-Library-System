@@ -43,7 +43,7 @@ export default function AcervoPage() {
                                     }`}
                                 onClick={handleChangeTab.bind(null, "Acervo")}
                             >
-                                Disponíveis <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">{dataAcervo.length}</span>
+                                Disponíveis <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">{dataAcervo.length || 0}</span>
                             </button>
 
                             <button className={`px-4 py-3 flex items-center gap-2 ${currentTab === "Emprestados" ? "border-b-2 border-[#0f62fe] text-[#0f62fe]" : "text-[#4d5358]"
@@ -89,13 +89,12 @@ export default function AcervoPage() {
                                 <tbody>
 
                                     {/* Esse dataAcervo precisa vir do useApp, ele será o que vem da API */}
-                                    {currentTab === "Acervo" && (
+                                    {currentTab === "Acervo" && dataAcervo.length > 0 && (
                                         <TableRows dataAcervo={dataAcervo} onLend={handleLendBook} onEdit={handleEditBook} onDelete={handleDeleteBook} />
                                     )}
-                                    {currentTab === "Emprestados" && (
+                                    {currentTab === "Emprestados" && dataEmprestimos.length > 0 && (
                                         <TableRowsEmprestimos dataAcervo={dataEmprestimos} onLend={handleLendBook} onEdit={handleEditBook} onDelete={handleDeleteBook} />
                                     )}
-
                                 </tbody>
                             </table>
                         </div>

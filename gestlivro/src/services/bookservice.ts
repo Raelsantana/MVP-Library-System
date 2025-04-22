@@ -15,13 +15,3 @@ export const listarLivros = async () => {
   const response = await axios.get(`${API_URL}books/listar`);
   return response.data;
 }
-
-export const cadastrarUsuario = async (usuario: string) => {
-  const response = await axios.post(`${API_URL}users`);
-  return response.data;
-};
-
-export const listarUsuarios = async () => {
-  const response = await axios.get(`${API_URL}users/listar`);
-  return response.data;
-};

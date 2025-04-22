@@ -236,7 +236,7 @@ export default function useApp() {
     const handleDeleteBook = async (id?: number) => {
         try {
             const response = await removerLivro(id)
-            alert("Livro removido com sucesso")
+            alert(response.message)
         } catch (error) {
             alert("Erro ao remover livro")
         }

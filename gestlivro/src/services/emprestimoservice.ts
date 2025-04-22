@@ -11,12 +11,12 @@ export const emprestarLivro = async (id?: number) => {
     return response.data;
 };
 
-export const devolverLivro = async (id: string) => {
+export const devolverLivro = async (id?: number) => {
     const response = await axios.post(`${API_URL}emprestimos/devolver/${id}`);
     return response.data;
 };
 
-export const adiarEmprestimoLivro = async (id: string) => {
+export const adiarEmprestimoLivro = async (id: number) => {
     const response = await axios.post(`${API_URL}emprestimos/adiar/${id}`);
     return response.data;
 };
