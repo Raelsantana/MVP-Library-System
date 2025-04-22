@@ -1,8 +1,9 @@
 import axios from "axios";
 import { API_URL } from "../utils/api";
+import { IAcervo } from "../pages/Acervo/useApp";
 
-export const cadastrarLivro = async (livro: string) => {
-  const response = await axios.post(API_URL, livro);
+export const cadastrarLivro = async (data: IAcervo) => {
+  const response = await axios.post(`${API_URL}books/adicionar`, data);
   return response.data;
 };
 

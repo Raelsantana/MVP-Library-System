@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { listarLivros, removerLivro } from "../../services/bookservice"
+import { cadastrarLivro, listarLivros, removerLivro } from "../../services/bookservice"
 import { formatYear, onlyLetters } from "../../utils/formatters"
 import { emprestarLivro } from "../../services/emprestimoservice"
 import { IEmprestimosData } from "./tables/emprestimos-table"
@@ -121,14 +121,14 @@ export default function useApp() {
         try {
             if (currentTab === "Acervo") {
                 //const response = await listarLivros();
-                //setDataAcervo(response.data)
+                //setDataAcervo(response)
 
                 //dadosMock
                 const response = bookData
                 setDataAcervo(response)
             } else {
                 //const response = await listarEmprestimos();
-                //setDataEmprestimos(response.data)
+                //setDataEmprestimos(response)
 
                 //dadosMock
                 const responseEmprestimos = emprestimosData
@@ -201,14 +201,23 @@ export default function useApp() {
         setFormData((prev) => ({ ...prev, rented: checked }))
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault()
-        if (!formData.title || !formData.author || !formData.publication_year) {
-            alert("Preencha todos os campos")
-            return
+        
+        for (const key in formData) {
+            if (formData[key as keyof typeof formData] === "") {
+                alert(`Preencha o campo ${key}`)
+                return
+            }
         }
-
-        setDataAcervo((prev) => [...prev, { ...formData }])
+        
+        try {
+            const response = await cadastrarLivro(formData)
+            setDataAcervo((prev) => [...prev, { ...formData }])
+            alert(response.message)
+        } catch (error) {
+            alert("Erro ao cadastrar livro")
+        }
         handleClearDataModal()
     }
 
