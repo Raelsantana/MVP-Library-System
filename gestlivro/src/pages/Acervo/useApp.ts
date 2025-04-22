@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { cadastrarLivro, listarLivros, removerLivro } from "../../services/bookservice"
 import { formatYear, onlyLetters } from "../../utils/formatters"
-import { emprestarLivro } from "../../services/emprestimoservice"
+import { emprestarLivro, listarEmprestimos } from "../../services/emprestimoservice"
 import { IEmprestimosData } from "./tables/emprestimos-table"
 
 export interface IAcervo {
@@ -120,19 +120,19 @@ export default function useApp() {
     const handleFetchData = async () => {
         try {
             if (currentTab === "Acervo") {
-                //const response = await listarLivros();
-                //setDataAcervo(response)
-
-                //dadosMock
-                const response = bookData
+                const response = await listarLivros();
                 setDataAcervo(response)
-            } else {
-                //const response = await listarEmprestimos();
-                //setDataEmprestimos(response)
 
                 //dadosMock
-                const responseEmprestimos = emprestimosData
-                setDataEmprestimos(responseEmprestimos)
+                //const response = bookData
+                //setDataAcervo(response)
+            } else {
+                const response = await listarEmprestimos();
+                setDataEmprestimos(response)
+
+                //dadosMock
+                //const responseEmprestimos = emprestimosData
+                //setDataEmprestimos(responseEmprestimos)
             }
         } catch (error) {
             console.error("Error fetching data:", error)
@@ -210,9 +210,16 @@ export default function useApp() {
                 return
             }
         }
-        
+
+        const formattedFormData = {
+            ...formData,
+            publication_year: parseInt(formData.publication_year, 10),
+            qtt_estoque: parseInt(formData.qtt_estoque, 10),
+            qtt_alugados: parseInt(formData.qtt_alugados, 10)
+        };
+
         try {
-            const response = await cadastrarLivro(formData)
+            const response = await cadastrarLivro(formattedFormData)
             setDataAcervo((prev) => [...prev, { ...formData }])
             alert(response.message)
         } catch (error) {
@@ -228,6 +235,7 @@ export default function useApp() {
             const response = await emprestarLivro(id)
 
             alert(response.message)
+            handleFetchData()
         } catch (error) {
             alert("Erro ao emprestar livro")
         }
@@ -246,6 +254,7 @@ export default function useApp() {
         try {
             const response = await removerLivro(id)
             alert(response.message)
+            handleFetchData()
         } catch (error) {
             alert("Erro ao remover livro")
         }

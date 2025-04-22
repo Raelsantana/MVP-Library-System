@@ -49,7 +49,7 @@ export default function AcervoPage() {
                             <button className={`px-4 py-3 flex items-center gap-2 ${currentTab === "Emprestados" ? "border-b-2 border-[#0f62fe] text-[#0f62fe]" : "text-[#4d5358]"
                                 }`}
                                 onClick={handleChangeTab.bind(null, "Emprestados")}>
-                                Emprestados <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">2</span>
+                                Emprestados <span className="bg-[#dde1e6] text-[#4d5358] rounded-full px-1.5 text-xs">{dataEmprestimos.length || 0}</span>
                             </button>
 
 

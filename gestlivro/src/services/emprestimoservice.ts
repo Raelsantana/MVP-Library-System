@@ -7,7 +7,7 @@ export const listarEmprestimos = async () => {
 }
 
 export const emprestarLivro = async (id?: number) => {
-    const response = await axios.post(`${API_URL}emprestimos/devolver/${id}`);
+    const response = await axios.post(`${API_URL}emprestimos/criar/${id}`);
     return response.data;
 };
 
