@@ -10,7 +10,7 @@ export const cadastrarLivro = async (livro:string)=> {
 };
 
 export const listarLivros = async () => {
-  const response = await axios.get(`${API_URL}books`);
+  const response = await axios.get(`${API_URL}books/listar`);
   return response.data;
 };
 
@@ -21,6 +21,6 @@ return response.data;
 };
 
 export const listarUsuarios = async ()=> {
-const response = await axios.get(API_URL);
+const response = await axios.get(`${API_URL}users/listar`);
 return response.data;
 };

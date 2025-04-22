@@ -13,11 +13,10 @@ type RegisterUserPage = {
     handleClearDataModal: () => void
     handleCloseModal: () => void
     formData: {
+        cpf: string,
         name: string,
         email: string,
-        cpf: string,
-        phone: string,
-        isAvailable: boolean
+        pode_alugar: boolean
     }
 }
 
@@ -81,27 +80,12 @@ export default function RegisterUserPage({ handleChange, handleCheckboxChange, h
                             />
                         </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="cpf" className="text-[#21272a] font-medium">
-                                Telefone
-                            </Label>
-                            <Input
-                                id="phone"
-                                name="phone"
-                                type="text"
-                                maxLength={15}
-                                placeholder="Ex.: (00) 00000-0000"
-                                className="bg-white border-[#dde1e6] h-12"
-                                value={formData.phone}
-                                onChange={handleChange}
-                            />
-                        </div>
                     </div>
 
                     <div className="flex items-center space-x-2 pt-2">
                         <Checkbox
                             id="isAvailable"
-                            checked={formData.isAvailable}
+                            checked={formData.pode_alugar}
                             onCheckedChange={handleCheckboxChange}
                             className="border-[#4d5358] data-[state=checked]:bg-[#0f62fe] data-[state=checked]:border-[#0f62fe]"
                         />

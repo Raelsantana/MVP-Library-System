@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
+import { listarUsuarios } from "../../services/bookservice"
 
 export interface IUsers {
+    cpf: string
     name: string
-    email: string
-    cpf: string | number
-    phone: string | number
-    status: string
+    email: string 
+    pode_alugar: boolean
+    id?: number
 }
 
 export default function useApp() {
@@ -22,15 +23,14 @@ export default function useApp() {
     ]
 
     const handleFetchData = async () => {
-        try {
-            const response = await fetch("https://api.example.com/users")
-            const data = await response.json()
-            setDataAcervo(data)
-
-        } catch (error) {
-            console.error("Error fetching data:", error)
+            try{
+                const response = await listarUsuarios();
+                console.log('response:', response)
+                setDataAcervo(response)
+            }catch(error){
+                console.error("Error fetching data:", error)
+            }
         }
-    }
 
     //Funções do Modal de registro
 
@@ -39,20 +39,18 @@ export default function useApp() {
     }
 
     const [formData, setFormData] = useState({
+        cpf: "",
         name: "",
         email: "",
-        cpf: "",
-        phone: "",
-        isAvailable: false,
+        pode_alugar: true,
     })
 
     const handleClearDataModal = () => {
         setFormData({
+            cpf: "",
             name: "",
             email: "",
-            cpf: "",
-            phone: "",
-            isAvailable: false,
+            pode_alugar: true,
         })
     }
 
@@ -61,12 +59,6 @@ export default function useApp() {
 
         if(name === "cpf"){
             const formattedValue = value.replace(/\D/g, "").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1-$2")
-            setFormData((prev) => ({ ...prev, [name]: formattedValue }))
-            return
-        }
-
-        if(name === "phone"){
-            const formattedValue = value.replace(/\D/g, "").replace(/(\d{2})(\d)/, "($1) $2").replace(/(\d{4})(\d)/, "$1-$2")
             setFormData((prev) => ({ ...prev, [name]: formattedValue }))
             return
         }
@@ -88,22 +80,24 @@ export default function useApp() {
     }
 
     const handleCheckboxChange = (checked: boolean) => {
-        setFormData((prev) => ({ ...prev, isAvailable: checked }))
+        setFormData((prev) => ({ ...prev, pode_alugar: checked }))
     }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if (!formData.name || !formData.email || !formData.cpf || !formData.phone) {
+        if (!formData.cpf || !formData.name || !formData.email || !formData.pode_alugar) {
             alert("Preencha todos os campos")
             return
         }
 
-        setDataAcervo((prev) => [...prev, { ...formData, status: formData.isAvailable ? "Ativo" : "Inativo" }])
+        setDataAcervo((prev) => [...prev, { ...formData, status: formData.pode_alugar ? "Sim" : "Não" }])
         handleClearDataModal()
     }
 
     useEffect(() => {
-        setDataAcervo(userData)
+        //setDataAcervo(bookData)
+        handleFetchData()
+        //com o uso do setDataAcervo aqui, não precisamos passar a variável de Mock "bookData" diretamente para o componente
     }, [])
 
     return {
