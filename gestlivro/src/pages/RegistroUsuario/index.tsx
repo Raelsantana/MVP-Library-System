@@ -25,7 +25,7 @@ export default function RegisterUserPage({ handleChange, handleCheckboxChange, h
     return (
         <div className="max-w-2xl mx-auto p-4 container bg-white rounded-md shadow-md">
             <h1 className="text-2xl font-medium text-[#21272a] p-6 flex align-center w-full justify-between">
-                Cadastrar Livro
+                Cadastrar Usuário
                 <Button onClick={handleCloseModal} className=" h-8 w-6 bg-inherit hover:bg-gray-200 rounded-full text-gray-500">
                     x
                 </Button>
@@ -84,12 +84,12 @@ export default function RegisterUserPage({ handleChange, handleCheckboxChange, h
 
                     <div className="flex items-center space-x-2 pt-2">
                         <Checkbox
-                            id="isAvailable"
+                            id="pode_alugar"
                             checked={formData.pode_alugar}
                             onCheckedChange={handleCheckboxChange}
                             className="border-[#4d5358] data-[state=checked]:bg-[#0f62fe] data-[state=checked]:border-[#0f62fe]"
                         />
-                        <Label htmlFor="isAvailable" className="text-[#21272a] font-medium">
+                        <Label htmlFor="pode_alugar" className="text-[#21272a] font-medium">
                             Registrar como ativo?
                         </Label>
                     </div>

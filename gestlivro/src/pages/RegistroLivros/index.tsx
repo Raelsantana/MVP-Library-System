@@ -2,7 +2,6 @@
 
 import type React from "react"
 
-import { useState } from "react"
 import { Label } from "../../components/ui/label"
 import { Input } from "../../components/ui/input"
 import { Checkbox } from "../../components/ui/checkbox"
